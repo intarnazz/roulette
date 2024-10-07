@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="wallet">
+      <h2>1000$</h2>
+    </div>
+    <div class="rates">
+      <div class="box-y">
+        <button onclick="spin('black')">поставить на чёрное</button>
+        <button onclick="spin('red')">поставить на красное</button>
+      </div>
+      <h2 id="result"></h2>
+    </div>
+    <div class="box-y">
+      <h1 id="num">0</h1>
+      <img
+        id="roulette"
+        style="transform: rotate(360deg)"
+        src="./img/roulette.png"
+        alt="roulette"
+      />
+    </div>
+  </body>
+  <script src="./script/script.js"></script>
+</html>
