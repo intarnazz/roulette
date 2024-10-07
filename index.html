@@ -8,16 +8,37 @@
   </head>
   <body>
     <div class="wallet">
-      <h2>1000$</h2>
+      <h2 id="balance" style="position: absolute; top: 1rem; left: 1rem"></h2>
     </div>
     <div class="rates">
-      <div class="box-y">
+      <div class="box-y gap">
+        <div class="box-x">
+          <label for="">ставка</label>
+          <input id="bid" min="0" type="number" />
+        </div>
+        <div class="box-x">
+          <label for="">своё число</label>
+          <input id="choice" min="0" max="36" type="number" />
+        </div>
+        <div class="box-x">
+          <p id="massage"></p>
+        </div>
+        <button onclick="spin('choice')">поставить на своё число</button>
+        <div class="">
+          <hr />
+        </div>
+        <button onclick="setBalance(getBalance() + 1000)">
+          пополнить 1000$
+        </button>
         <button onclick="spin('black')">поставить на чёрное</button>
         <button onclick="spin('red')">поставить на красное</button>
+        <button onclick="spin('zero')">поставить на zero</button>
+        <button onclick="spin('even')">поставить на чётное</button>
+        <button onclick="spin('neteven')">поставить на не чётное</button>
       </div>
       <h2 id="result"></h2>
     </div>
-    <div class="box-y">
+    <div class="box-y center">
       <h1 id="num">0</h1>
       <img
         id="roulette"

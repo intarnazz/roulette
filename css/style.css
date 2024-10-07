@@ -8,6 +8,11 @@ body {
 .box-y {
   display: flex;
   flex-direction: column;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
   align-items: center;
 }
 
@@ -29,4 +34,14 @@ button {
   padding: 0.5rem 1rem;
   cursor: pointer;
   font-size: 1rem;
+}
+
+.wallet {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.gap {
+  gap: 1rem;
 }/*# sourceMappingURL=style.css.map */

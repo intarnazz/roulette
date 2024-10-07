@@ -1,3 +1,26 @@
+let balance = document.getElementById("balance");
+let bid = document.getElementById("bid");
+let massage = document.getElementById("massage");
+let result = document.getElementById("result");
+let choice = document.getElementById("choice");
+
+function getBalance() {
+  return +localStorage.getItem("balance");
+}
+
+function setBalance(value) {
+  localStorage.setItem("balance", value);
+  init();
+}
+
+function getBid() {
+  return +bid.value;
+}
+
+function init() {
+  balance.innerHTML = getBalance() + "$";
+}
+
 function degTransform(deg) {
   deg = Math.round(deg / 9.7);
   switch (deg) {
@@ -95,10 +118,6 @@ function degColor(deg) {
   }
 }
 
-function name() {
-  
-}
-
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -108,22 +127,72 @@ const rotate = {
   num: document.getElementById("num"),
   deg: 0,
   rotate: function () {
-    this.deg = this.deg++ < 360 ? this.deg : 0;
+    this.deg += 3;
+    this.deg = this.deg < 360 ? this.deg : 0;
     this.roulette.style.transform = `rotate(${this.deg}deg)`;
     this.num.innerHTML = degTransform(this.deg);
   },
 };
 
 function spin(rate) {
-  let result = document.getElementById("result");
-  result.innerHTML = "";
-  let Interval = setInterval(rotate.rotate.bind(rotate), getRandomInt(1, 20));
-  let timeout = setTimeout(() => {
-    clearInterval(Interval);
-    clearTimeout(timeout);
-    result.innerHTML =
-      degColor(+document.getElementById("num").innerHTML) === rate
-        ? "you win"
-        : "you lose";
-  }, 5000);
+  if (choice <= 0 && rate === "choice") {
+    massage.innerHTML = "неверный выбор числа";
+  } else if (getBid() <= 0) {
+    massage.innerHTML = "Маленькая ставка";
+  } else if (getBalance() < getBid()) {
+    massage.innerHTML = "Маленький баланс";
+  } else {
+    let bonus = 0;
+    massage.innerHTML = "";
+    result.innerHTML = "";
+    let interval = setInterval(rotate.rotate.bind(rotate), getRandomInt(2, 20));
+    let timeout = setTimeout(() => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+      result.innerHTML = (
+        rate === "choice"
+          ? (() => {
+              bonus = getBid() * 2;
+              return (
+                +document.getElementById("num").innerHTML === +choice.value
+              );
+            })()
+          : (() => {
+              switch (rate) {
+                case "black":
+                  return true;
+                case "red":
+                  return true;
+                case "zero":
+                  bonus = getBid() * 3;
+                  return true;
+                default:
+                  return false;
+              }
+            })()
+          ? (() => {
+              return (
+                degColor(+document.getElementById("num").innerHTML) === rate
+              );
+            })()
+          : (() => {
+              if (+document.getElementById("num").innerHTML % 2 === 0) {
+                return rate === "even";
+              } else {
+                return rate !== "even";
+              }
+            })()
+      )
+        ? (() => {
+            setBalance(getBalance() + getBid() + bonus);
+            return "you win";
+          })()
+        : (() => {
+            setBalance(getBalance() - getBid() + bonus);
+            return "you lose";
+          })();
+    }, getRandomInt(4000, 10000));
+  }
 }
+
+init();
