@@ -4,6 +4,12 @@ let massage = document.getElementById("massage");
 let result = document.getElementById("result");
 let choice = document.getElementById("choice");
 
+const user = prompt("user");
+
+if (!localStorage.getItem("table")) {
+  localStorage.setItem("table", JSON.stringify({}));
+}
+
 function getBalance() {
   return +localStorage.getItem("balance");
 }
@@ -185,10 +191,17 @@ function spin(rate) {
       )
         ? (() => {
             setBalance(getBalance() + getBid() + bonus);
+
+            let table = JSON.parse(localStorage.getItem("table"));
+            if (!table[user]) {
+              table[user] = getBid() + bonus;
+            }
+            localStorage.setItem("table", JSON.stringify(table));
+
             return "you win";
           })()
         : (() => {
-            setBalance(getBalance() - getBid() + bonus);
+            setBalance(getBalance() - getBid() - bonus);
             return "you lose";
           })();
     }, getRandomInt(4000, 10000));

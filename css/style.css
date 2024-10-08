@@ -3,6 +3,9 @@ body {
   align-items: center;
   justify-content: center;
   height: 98dvh;
+  overflow: hidden;
+  background-color: hsl(120, 94%, 19%);
+  color: #fff;
 }
 
 .box-y {
@@ -47,5 +50,12 @@ button {
 }
 
 img {
-  border-radius: 300px;
+  border-radius: 1000px;
+  width: 1000px;
+  margin-top: 90%;
+}
+
+h1 {
+  position: absolute;
+  top: 80px;
 }/*# sourceMappingURL=style.css.map */
