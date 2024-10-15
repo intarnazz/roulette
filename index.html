@@ -24,18 +24,41 @@
         <div class="box-x">
           <p id="massage"></p>
         </div>
-        <button onclick="spin('choice')">поставить на своё число</button>
+        <button
+          onclick="spin('choice')"
+          style="vertical-align: middle"
+          onclick="spin('black')"
+        >
+          <span> поставить на своё число </span>
+        </button>
+
         <div class="">
           <hr />
         </div>
-        <button onclick="setBalance(getBalance() + 1000)">
-          пополнить 1000$
+
+        <button
+          onclick="setBalance(getBalance() + 1000)"
+          style="vertical-align: middle"
+          onclick="spin('black')"
+        >
+          <span> пополнить 1000$ </span>
         </button>
-        <button onclick="spin('black')">поставить на чёрное</button>
-        <button onclick="spin('red')">поставить на красное</button>
-        <button onclick="spin('zero')">поставить на zero</button>
-        <button onclick="spin('even')">поставить на чётное</button>
-        <button onclick="spin('neteven')">поставить на не чётное</button>
+
+        <button style="vertical-align: middle" onclick="spin('black')">
+          <span> поставить на чёрное </span>
+        </button>
+        <button style="vertical-align: middle" onclick="spin('red')">
+          <span> поставить на красное </span>
+        </button>
+        <button style="vertical-align: middle" onclick="spin('zero')">
+          <span> поставить на zero </span>
+        </button>
+        <button style="vertical-align: middle" onclick="spin('even')">
+          <span> поставить на чётное </span>
+        </button>
+        <button style="vertical-align: middle" onclick="spin('neteven')">
+          <span> поставить на не чётное </span>
+        </button>
       </div>
       <h2 id="result"></h2>
     </div>
