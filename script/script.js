@@ -4,6 +4,7 @@ let massage = document.getElementById("massage");
 let result = document.getElementById("result");
 let choice = document.getElementById("choice");
 let table = document.getElementById("table");
+let img = document.getElementById("img");
 
 const user = prompt("user") || "user";
 
@@ -223,6 +224,12 @@ function spin(rate) {
             table[user].balance = getBalance();
             localStorage.setItem("table", JSON.stringify(table));
             init();
+            img.innerHTML = `<img src="./img/win/${Math.floor(
+              Math.random() * 17
+            )}.gif" alt="img"><h1>you win</h1>`;
+            setTimeout(() => {
+              img.innerHTML = "";
+            }, 5000);
             return "you win";
           })()
         : (() => {
@@ -232,6 +239,12 @@ function spin(rate) {
             table[user].balance = getBalance();
             localStorage.setItem("table", JSON.stringify(table));
             init();
+            img.innerHTML = `<img src="./img/lose/${Math.floor(
+              Math.random() * 11
+            )}.gif" alt="img"><h1>you lose</h1>`;
+            setTimeout(() => {
+              img.innerHTML = "";
+            }, 5000);
             return "you lose";
           })();
     }, getRandomInt(4000, 10000));
