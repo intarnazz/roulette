@@ -3,19 +3,28 @@ let bid = document.getElementById("bid");
 let massage = document.getElementById("massage");
 let result = document.getElementById("result");
 let choice = document.getElementById("choice");
+let table = document.getElementById("table");
 
-const user = prompt("user");
+const user = prompt("user") || "user";
 
 if (!localStorage.getItem("table")) {
   localStorage.setItem("table", JSON.stringify({}));
 }
 
+if (!JSON.parse(localStorage.getItem("table"))[user]) {
+  let table = JSON.parse(localStorage.getItem("table"));
+  table[user] = { sum: 0, balance: 0 };
+  localStorage.setItem("table", JSON.stringify(table));
+}
+
 function getBalance() {
-  return +localStorage.getItem("balance");
+  return +JSON.parse(localStorage.getItem("table"))[user].balance;
 }
 
 function setBalance(value) {
-  localStorage.setItem("balance", value);
+  let table = JSON.parse(localStorage.getItem("table"));
+  table[user].balance = value;
+  localStorage.setItem("table", JSON.stringify(table));
   init();
 }
 
@@ -25,6 +34,24 @@ function getBid() {
 
 function init() {
   balance.innerHTML = getBalance() + "$";
+  let tableJSON = JSON.parse(localStorage.getItem("table"));
+
+  const sortedEntries = Object.entries(tableJSON).sort(
+    ([, a], [, b]) => b.sum - a.sum
+  );
+  let keys = sortedEntries.map(([key, value]) => key);
+  let values = sortedEntries.map(([key, value]) => value);
+  let s = "";
+  s = `<tbody>`;
+  for (let i = 0; i < values.length; i++) {
+    s += `
+  <tr>
+  <td>${keys[i]}</td>
+  <td>${values[i].sum}</td>
+  </tr>`;
+  }
+  s += "</tbody>";
+  table.innerHTML = s;
 }
 
 function degTransform(deg) {
@@ -191,17 +218,20 @@ function spin(rate) {
       )
         ? (() => {
             setBalance(getBalance() + getBid() + bonus);
-
             let table = JSON.parse(localStorage.getItem("table"));
-            if (!table[user]) {
-              table[user] = getBid() + bonus;
-            }
+            table[user].sum += getBid() + bonus;
+            table[user].balance = getBalance();
             localStorage.setItem("table", JSON.stringify(table));
-
+            init();
             return "you win";
           })()
         : (() => {
-            setBalance(getBalance() - getBid() - bonus);
+            setBalance(getBalance() - getBid());
+            let table = JSON.parse(localStorage.getItem("table"));
+            table[user].sum += -getBid();
+            table[user].balance = getBalance();
+            localStorage.setItem("table", JSON.stringify(table));
+            init();
             return "you lose";
           })();
     }, getRandomInt(4000, 10000));
